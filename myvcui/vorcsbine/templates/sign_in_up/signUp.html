@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Standard Meta -->
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+    <!-- Site Properties -->
+    <title>Sign Up</title>
+    <link rel="stylesheet" type="text/css" href="../../../static/components/reset.css">
+    <link rel="stylesheet" type="text/css" href="../../../static/components/site.css">
+    <link rel="stylesheet" type="text/css" href="../../../static/css/toast.css"/>
+    <link rel="stylesheet" type="text/css" href="../../../static/components/container.css">
+    <link rel="stylesheet" type="text/css" href="../../../static/components/grid.css">
+    <link rel="stylesheet" type="text/css" href="../../../static/components/header.css">
+    <link rel="stylesheet" type="text/css" href="../../../static/components/image.css">
+    <link rel="stylesheet" type="text/css" href="../../../static/components/menu.css">
+
+    <link rel="stylesheet" type="text/css" href="../../../static/components/divider.css">
+    <link rel="stylesheet" type="text/css" href="../../../static/components/segment.css">
+    <link rel="stylesheet" type="text/css" href="../../../static/components/form.css">
+    <link rel="stylesheet" type="text/css" href="../../../static/components/input.css">
+    <link rel="stylesheet" type="text/css" href="../../../static/components/button.css">
+    <link rel="stylesheet" type="text/css" href="../../../static/components/list.css">
+    <link rel="stylesheet" type="text/css" href="../../../static/components/message.css">
+    <link rel="stylesheet" type="text/css" href="../../../static/components/icon.css">
+    <link rel="shortcut icon" href="../../../static/images/logo_ico_128_128.ico" type="image/x-icon"/>
+
+    <script src="../../../static/js/me.js"></script>
+    <script src="../../../static/components/form.js"></script>
+    <script src="../../../static/components/transition.js"></script>
+{#    <script src="../../../static/js/jquery.js"></script>#}
+    <script src="../../../static/js/jquery.validate.js"></script>
+    <script src="../../../static/js/messages_zh.js"></script>
+    <script type="text/javascript" src="../../../static/js/api.js"></script>
+    <script type="text/javascript" src="../../../static/js/aui-toast.js"></script>
+    <script src="../../../static/js/jquery-3.0.0.min.js"></script>
+    <script src="../../../static/js/jquery-1.11.3.min.js"></script>
+    <script src="../../../static/js/jquery.min.js"></script>
+    <link rel="stylesheet" href="../../../static/css/layui.css" media="all">
+
+    <style type="text/css">
+        body {
+            /*background-color: #DADADA;*/
+            /*background-image: url("../../../static/images/bg.jpg");*/
+            background-size: 100% 100vh;
+        }
+
+        /*设置按钮点击后再次点击无效 针对发送验证码按钮*/
+        .disable {
+            pointer-events: none;
+        }
+
+        body > .grid {
+            height: 100%;
+        }
+
+        .image {
+            margin-top: -100px;
+        }
+
+        .column {
+            max-width: 450px;
+        }
+
+        #register {
+            /*style="color: white" id="register"*/
+            color: white;
+            /*background-color:rgb(255,102,0) ;*/
+            background-color: rgb(0, 150, 136);
+        }
+
+        #register:hover {
+            /*color: rgb(53,189,178);*/
+            /*background-color:rgb(255,153,0) ;*/
+            background-color: rgb(51, 171, 179);
+        }
+
+        #send_code {
+            /*style="color: white" id="register"*/
+            color: white;
+            /*background-color:rgb(255,102,0) ;*/
+            background-color: rgb(35, 33, 28);
+        }
+
+        #send_code:hover {
+            /*color: rgb(53,189,178);*/
+            /*background-color:rgb(255,153,0) ;*/
+            background-color: rgb(51, 171, 179);
+        }
+
+        #index_link_postion {
+            width: 100%;
+            height: 30px;
+            /*background-color: #00a0e9;*/
+            position: absolute;
+            margin-top: 30px;
+            padding-top: 5px;
+            padding-left: 30px;
+
+        }
+
+        #index_page {
+            color: white;
+        }
+
+        #index_page:hover {
+            color: white;
+            text-decoration: underline;
+        }
+    </style>
+
+</head>
+<body style="background-color:#EE872A">
+<div id="index_link_postion">
+    <a href="index" id="index_page" style="color: rgb(0,150,136)">&lt;go back to Index</a>
+
+
+</div>
+<div class="ui middle aligned center aligned grid">
+    <div class="column">
+        <h2 class="ui teal image header">
+
+            <div class="content" style="color: rgb(0,150,136)">
+                Register Account
+            </div>
+        </h2>
+        <form class="ui large form" action="signUp_process" method="post" id="register_form">
+            <div class="ui stacked segment" style="background: black;opacity: 0.8">
+                <h1 id="demo">hello</h1>
+                <div class="field">
+                    <div>
+
+                        <input type="text" name="user_name" id="user_name" placeholder="Username" class="tem"
+                               value="{{ user_name }}">
+                    </div>
+                </div>
+
+                <div class="field">
+                    <div>
+                        <input type="password" name="user_password" id="user_password" placeholder="Password"
+                               value="{{ user_password }}" class="tem"/>
+                    </div>
+                </div>
+                <div class="field">
+                    <div>
+                        <input type="email" id="user_email" name="user_email" placeholder="Email address"
+                               value="{{ user_email }}" class="tem"/>
+                    </div>
+
+                </div>
+
+                <a class="btn btn-login float-right" href="javascript:submit_form();"><span style="color: whitesmoke;">Sign Up</span></a>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="site-demo-button" id="layerDemo" style="margin-bottom: 0;display: none;">
+    <button data-method="offset" data-type="auto" class="layui-btn layui-btn-normal" id="hint">居中弹出</button>
+</div>
+<script type="text/javascript" src="../../../static/layui/layui.js"></script>
+
+<script>
+    function submit_form() {
+        elem = document.getElementById("demo"); // 查找元素
+        elem.innerHTML = "123";
+
+        // 判断用户是否将信息输入完整 否则不允许提交
+        var user_info = $("input[name='user_name']").val();
+        var user_password = $("input[name='user_password']").val();
+        var email = $("input[name='user_email']").val();
+        if (user_name == '' || user_password == ''|| user_email == '') {
+
+            $(document).on('click','#hint',function() {alert("Incomplete information!");});
+
+            return;
+        }else{
+            $("form").submit();
+        }
+    }
+
+</script>
+
+</body>
+</html>
