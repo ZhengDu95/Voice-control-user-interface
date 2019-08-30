@@ -10,20 +10,13 @@ def speak(speak_text, language):
         conf.CHAT_OBJ.appendHtml(textFormatted)
 
         if language.lower() == 'chinese':
-            tts = gTTS(text=speak_text, lang='zh')
+            tts = gTTS(text=speak_text, lang='zh-tw')
         else:
             tts = gTTS(text=speak_text, lang='en')
 
         tts.save("good.mp3")
-        os.system("mpg321 good.mp3") # DEPENDENCY: need to install mpg321
-        #time.sleep(2)
-        #os.remove('good.mp3')
-        # BOT message
-
-        # task = multiprocessing.Process(target=append_text, args=(textFormatted, ))
-        # task.start()
-        # task = multiprocessing.Process(target=play, args=(tts, ))
-        # task.start()
+        #os.system("mpg321 good.mp3") 
+        os.system("say " + speak_text) 
 
     except Exception as e:
         print("gtts error:",e)

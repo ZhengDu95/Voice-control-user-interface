@@ -16,8 +16,8 @@ def stt_func(selected_lang):
         print('I am ready for your next command')
         r.pause_threshold = 1   
         r.adjust_for_ambient_noise(source, duration=1)
-        print(r.energy_threshold)
-        os.system("beep.mp3") #play the notification sound
+        #print(r.energy_threshold)
+        #os.system("beep.mp3") #play the notification sound
         print("Please Say Something.")
         r.energy_threshold += 280
         audio = r.listen(source)
@@ -31,7 +31,7 @@ def stt_func(selected_lang):
 
             text_into_byte = speech_text.encode('utf-8')
 
-            # b'\xe0\xa7\x9f' = য়  ???
+
             normalized_text_byte = text_into_byte.replace(b'\xe0\xa6\xaf\xe0\xa6\xbc', b'\xe0\xa7\x9f')
             text = normalized_text_byte.decode('utf-8')
             
@@ -39,11 +39,7 @@ def stt_func(selected_lang):
             text = r.recognize_google(audio, language='en-US')
         
         else:
-            pass
-       
-        #with open('output.txt','w') as f:
-        #    print("convertor:{}\n{}".format(en_text,bn_text), file=f)  
-        #print("Google Cloud Speech thinks you said " + r.recognize_google_cloud(audio, credentials_json=GOOGLE_CLOUD_SPEECH_CREDENTIALS, language='bn-BD'))
+            pass     
         
     except sr.UnknownValueError:
         print("Google Cloud Speech could not understand audio")

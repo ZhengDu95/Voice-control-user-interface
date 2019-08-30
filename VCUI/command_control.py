@@ -4,9 +4,10 @@ import logging
 from PyQt5.QtWidgets import QApplication, QWidget, QInputDialog, QLineEdit
 from PyQt5.QtGui import QIcon
 
-from plugins import speak_time, speak_date, read_email, search_mail, open_folder, translate, current_weather, google_search
+from plugins import speak_time, speak_date, read_email, search_mail, translate, current_weather, google_search
+from o_v_e     import ove_control, ove_video
+
 from text_to_speech import tts
-import password_check
 
 
 LOG_FORMAT = "%(levelname)s >  Line:%(lineno)s - %(message)s"
@@ -23,47 +24,23 @@ def input_parser(commands_list, selected_lang, command, profile_info):
     index = None
 
     # TODO: Make this code less repetitively 
-    # Find index number of matching bengali command
+    # Find index number of matching chinese command
     if selected_lang.lower() == 'chinese':
-        # Custom  bengali commands
-        for cus_cmd in commands_list['custom']:
-            if command == cus_cmd:
-                index = commands_list['custom'].index(cus_cmd)
+        for cmd in commands_list['chinese']:
+            if command in cmd.split(';'):
+                index = commands_list['chinese'].index(cmd)
                 break
-        else:
-            for cmd in commands_list['chinese']:
-                if command in cmd.split(';'):
-                    index = commands_list['chinese'].index(cmd)
-                    break
     # Find index number of matching english command
     else:
-        for cus_cmd in commands_list['custom']:
-            if command.lower() == cus_cmd:
-                index = commands_list['custom'].index(cus_cmd)
+        for cmd in commands_list['english']:
+            if command.lower() in cmd.split(';'):
+                print("match")
+                index = commands_list['english'].index(cmd)
                 break
-        else:
-            for cmd in commands_list['english']:
-                if command.lower() in cmd.split(';'):
-                    print("match")
-                    index = commands_list['english'].index(cmd)
-                    break
 
     # If command are found then search for task by index number           
     if isinstance(index, int):
         no_error = True
-        # print('index:',index)
-        # print(commands_list['task'][index])
-
-        if commands_list['security'][index].lower() == 'y':
-            
-            match_obj = password_check.PasswordCheckDialog()
-            match = match_obj.check()
-            # print('password Match:',match)
-            if not match:
-                no_error = False
-                tts.speak(speak_text="Incorrect password. Please Try again.", language='english')
-            # TODO: If password not match then ask password again
-        
 
         if no_error:
             if commands_list['task'][index] == 'greeting':
@@ -81,9 +58,6 @@ def input_parser(commands_list, selected_lang, command, profile_info):
             if commands_list['task'][index] == 'search email':
                 search_mail.main(text=command,lang=selected_lang)
 
-            if commands_list['task'][index] == 'open folder':
-                open_folder.main(text=command,lang=selected_lang)
-
             if commands_list['task'][index] == 'translate':
                 translate.translate_func(lang=selected_lang)
 
@@ -92,6 +66,45 @@ def input_parser(commands_list, selected_lang, command, profile_info):
             
             if commands_list['task'][index] == 'google search':
                 google_search.google_search_func(lang=selected_lang)
+               
+            
+            #control of OVE
+            if commands_list['task'][index] == 'control ove':
+                ove_control.ove_launch_func(lang=selected_lang)
+                
+            # for image application    
+            if commands_list['task'][index] == 'control image':
+                ove_control.ove_launch_image_func(lang=selected_lang)
+                
+            if commands_list['task'][index] == 'image space':
+                ove_control.ove_launch_image_space_func(text=command,lang=selected_lang)
+                
+            #for video application
+            if commands_list['task'][index] == 'control video':
+                ove_video.ove_launch_video_func(lang=selected_lang)
+                
+            if commands_list['task'][index] == 'video space':
+                ove_video.ove_launch_video_space_func(text=command,lang=selected_lang)
+            
+            if commands_list['task'][index] == 'video space':
+                ove_video.ove_launch_video_operation_func(text=command,lang=selected_lang)
+            
+            if commands_list['task'][index] == 'video operation':
+                ove_video.ove_launch_video_operation_func(text=command,lang=selected_lang)
+            
+            
+            # common use fuctions 
+            if commands_list['task'][index] == 'view section':
+                ove_control.ove_launch_view_section_func(text=command,lang=selected_lang)
+                
+            if commands_list['task'][index] == 'delete':
+                ove_control.ove_delete_func(lang = selected_lang)
+            
+            if commands_list['task'][index] == 'delete sections':
+                ove_control.ove_delete_sections_func(text=command,lang = selected_lang)
+            
+            
+            
 
             
     else:

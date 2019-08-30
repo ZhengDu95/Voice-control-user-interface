@@ -17,11 +17,9 @@ from PyQt5.QtWidgets import (QApplication, QWidget, QPushButton, QMainWindow,
 #self-defined 
 from speech_to_text import stt
 from commands_table import TableWindow
-import folder_table
 import send_email
 
 import sql
-import registration
 import command_control
 import conf
 
@@ -63,18 +61,12 @@ class App(QDialog):
         # {'task': [...], 'english': [....], 'chinese': [....], 'security': [....], 'custom': [....]}
         self.all_commands = sql.run_query(query='SELECT * FROM COMMANDS')
         self.profile_info =  sql.run_query(query="SELECT * from USER")
-
-        # check that any user data stored or not
-        if len(self.profile_info) == 0:
-            dialog = registration.Dialog()
-            dialog.exec_()
-
         
         conf.USER_NAME = self.profile_info['name'][0]
         
         languages = ["english", "chinese"]
         query_result = sql.run_query(query="select language from user") # Return type: Dictionary
-        #print (query_result)
+        print (query_result)
         
         selected_lang = query_result['language'][0]
         index_no = languages.index(selected_lang.lower()) # Raise : Valuerror unless item is found
@@ -101,14 +93,8 @@ class App(QDialog):
         """ ------------------- Text -------------------- """
         # Create Chat Box
         self.chat = QPlainTextEdit()
-        #self.chat.("icons/voice1.png"))
         self.chat.setFixedSize(600,300)
         self.chat.setReadOnly(True)
-
-        # Create input box where user type his command
-        #self.chatTextField = QLineEdit()
-        #self.chatTextField.resize(400,100)
-        #self.chatTextField.move(10,200)
 
 
         """ ---------------- Button ---------------------- """
@@ -123,8 +109,8 @@ class App(QDialog):
         
 
         self.commands_btn = QPushButton('Commands', default=False, autoDefault=False)
-        self.folder_btn = QPushButton("Folder", default=False, autoDefault=False)
-        self.forget_pass_btn = QPushButton('Forget Password', default=False, autoDefault=False)
+        #self.folder_btn = QPushButton("Folder", default=False, autoDefault=False)
+        #self.forget_pass_btn = QPushButton('Forget Password', default=False, autoDefault=False)
         
 
 
@@ -139,15 +125,12 @@ class App(QDialog):
         # Add horizontal layout
         self.h_layout = QHBoxLayout()
         self.h_layout.addWidget(self.chat)
-        #self.h_layout.addWidget(self.chatTextField)
         self.h_layout.addWidget(self.voice_btn)
 
         # Tools horizontal layout
         self.tools_h_layout = QHBoxLayout()
         self.tools_h_layout.addWidget(self.combo)
         self.tools_h_layout.addWidget(self.commands_btn)
-        self.tools_h_layout.addWidget(self.folder_btn)
-        self.tools_h_layout.addWidget(self.forget_pass_btn)
 
 
         self.v_layout.addLayout(self.dia_h_layout)
@@ -157,33 +140,9 @@ class App(QDialog):
 
         """ ------------------ triggered button ---------------"""
         self.voice_btn.clicked.connect(self.voice_text)
-        self.folder_btn.clicked.connect(folder_table.main)
-        self.forget_pass_btn.clicked.connect(self.send_password)
         self.commands_btn.clicked.connect(self.show_table)
-        #self.combo.activated[str].connect(lambda : self.language_label.setText((self.combo.currentText()).capitalize()))
 
         self.show()
-
-
-    @pyqtSlot()
-    def send_password(self):
-        """ Collect password and email_address from database.
-            Generate subject and body of email.
-            Call send email func.
-        """
-
-        password = self.profile_info['password'][0]
-        email_address = self.profile_info['email'][0] 
-
-        subject = "Password of voice application"
-        msg = "Your password is: {}".format(password)
-
-        QMessageBox.about(self,"Forget Password","Please Check your email inbox.")
-        send_email.send_email_func(
-            to_email_id = email_address,
-            subject = subject,
-            body = msg
-        )
 
 
     @pyqtSlot()
@@ -221,7 +180,9 @@ class App(QDialog):
 
         textFormatted='<b>{}: </b><span style=" font-size:12pt; font-weight:600; color:#33c4ff;">{}</span>'.format(conf.USER_NAME.capitalize(),text)
         self.chat.appendHtml(textFormatted)
-        conf.CHAT_OBJ = self.chat # Make pulic of chat object so that we can use this object from other file by conf.CHAT_OBJ
+        # Make pulic of chat object so that we can use this object from other file by conf.CHAT_OBJ
+        conf.CHAT_OBJ = self.chat 
+        
 
 
     @pyqtSlot()
