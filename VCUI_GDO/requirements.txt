@@ -6,15 +6,19 @@ google-auth-oauthlib==0.3.0
 google-cloud-speech==0.36.0
 googleapis-common-protos==1.5.5
 googletrans==2.4.0
+Click==7.0
 gTTS==2.0.3
 gTTS-token==1.1.3
 
 httplib2==0.12.0
 mpyg321==0.0.2
 
+pyasn1==0.4.4
+pyasn1-modules==0.2.2
 PyAudio==0.2.11
 PyQt5==5.11.3
 PyQt5-sip==4.19.13
+pytz==2018.7
 
 requests==2.21.0
 requests-oauthlib==1.2.0
@@ -25,10 +29,13 @@ urllib3==1.24.1
 
 voice-command==1.0
 
-Docker version == 19.03
-docker-compose version == 1.24.1
 
-ove
-ove_install
-ove_ui
-ove_apps
+altgraph==0.16.1
+future==0.17.1
+macholib==1.11
+netifaces==0.10.9
+pefile==2019.4.18
+PyInstaller==3.4
+readchar==2.0.1
+
+
