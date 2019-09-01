@@ -34,8 +34,8 @@ def ove_launch_func(lang):
 def ove_launch_mode_space_func(text,lang):    
     if lang.lower() == 'english':
         #change the mode to user's choice
-        if(text.lower() == 'cluster'):
-            #r = request.get("url-for-DOCluster")
+        if(text.lower() == 'space cluster'):
+            #r = request.post("http://gdo-appsdev.dsi.ic.ac.uk:8083/mode/DP")
             
             conf.SPACE  = "DOCluster"
             #conf.URL = "url-for-DOCluster"
@@ -45,8 +45,8 @@ def ove_launch_mode_space_func(text,lang):
             
  
     
-        elif(text.lower() == 'section'):
-            #r = request.get("url-for-DOSection")
+        elif(text.lower() == 'space section'):
+            #r = request.post("http://gdo-appsdev.dsi.ic.ac.uk:8083/mode/DVI")
             
             conf.SPACE  = "DOSection"
             #conf.URL = "url-for-DOSection"
@@ -158,7 +158,100 @@ def ove_delete_sections_func(text, lang):
     except Exception as e:
         print("OVE core open error:",e)     
             
+     
+
+def ove_demo_func(text,lang):
+    url = conf.URL
+    
+    if lang.lower() == 'english':
+        if  text.lower() == 'demo':
+            speak_text = "please choose a demo to load"
+            tts.speak(speak_text=speak_text,language=lang)
             
+            search_text = stt.stt_func(selected_lang=lang)
+            
+            if  search_text.lower() == 'blank':
+                url = "http://" + url + "/demo/blank"
+                r = requests.post(url)
+                speak_text = "play demo " + search_text.lower() + ", done."
+                tts.speak(speak_text=speak_text,language=lang)             
+            
+            elif search_text.lower() == 'logo':
+                url = "http://" + url + "/demo/logo"
+                r = requests.post(url)
+                speak_text = "play demo " + search_text.lower() + ", done."
+                tts.speak(speak_text=speak_text,language=lang)
+            
+            elif search_text.lower() == 'london':
+                url = "http://" + url + "/demo/londonmap"
+                r = requests.post(url)
+                speak_text = "play demo " + search_text.lower() + ", done."
+                tts.speak(speak_text=speak_text,language=lang)
+                
+            elif search_text.lower() == 'bitcoin':
+                url = "http://" + url + "/demo/bitcoin"
+                r = requests.post(url)
+                speak_text = "play demo " + search_text.lower() + ", done."
+                tts.speak(speak_text=speak_text,language=lang)
+            
+            elif search_text.lower() == 'silk road':
+                url = "http://" + url + "/demo/silkroad"
+                r = requests.post(url)
+                speak_text = "play demo " + search_text.lower() + ", done."
+                tts.speak(speak_text=speak_text,language=lang)
+            
+            elif search_text.lower() == 'mars':
+                url = "http://" + url + "/demo/marsselfie"
+                r = requests.post(url)
+                speak_text = "play demo " + search_text.lower() + ", done."
+                tts.speak(speak_text=speak_text,language=lang)
+            
+            elif search_text.lower() == 'introduction':
+                url = "http://" + url + "/demo/dsiintro"
+                r = requests.post(url)
+                speak_text = "play demo " + search_text.lower() + ", done."
+                tts.speak(speak_text=speak_text,language=lang)
+
+     
+            else:
+                speak_text = "wrong demos operations, try again."
+                tts.speak(speak_text=speak_text,language=lang)
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
             
             
             

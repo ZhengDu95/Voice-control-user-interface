@@ -151,7 +151,7 @@ class App(QDialog):
             update_commands = sql.run_query(query='SELECT * FROM COMMANDS')
             self.all_commands = update_commands
             conf.NEW_COMMAND = False
-
+            
         self.text = stt.stt_func(selected_lang=current_lang) 
 
         self.text_append(self.text)

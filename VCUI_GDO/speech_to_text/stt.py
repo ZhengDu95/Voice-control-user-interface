@@ -13,13 +13,10 @@ def stt_func(selected_lang):
     text = None
 
     with sr.Microphone() as source:
-        print('I am ready for your next command')
-        r.pause_threshold = 1   
+        r.pause_threshold = 0.5   
         r.adjust_for_ambient_noise(source, duration=1)
-        #print(r.energy_threshold)
-        #os.system("beep.mp3") #play the notification sound
         print("Please Say Something.")
-        r.energy_threshold += 800
+        r.energy_threshold += 2000
         audio = r.listen(source)
         print("Over! Starting recognize.....")
 
