@@ -2,6 +2,9 @@
 import speech_recognition as sr
 import os
 import logging
+import time
+from text_to_speech import tts
+
 
 LogFormat = "%(levelname)s >  Line:%(lineno)s - %(message)s"
 logging.basicConfig(filename="test.log", filemode="w", level=logging.DEBUG, format=LogFormat)
@@ -15,8 +18,14 @@ def stt_func(selected_lang):
     with sr.Microphone() as source:
         r.pause_threshold = 0.5   
         r.adjust_for_ambient_noise(source, duration=1)
+
+        #tts.speak(speak_text = "Please Say Something.", language = selected_lang)
         print("Please Say Something.")
-        r.energy_threshold += 2000
+        
+        #calculate time 
+        start = time.time()
+        
+        r.energy_threshold += 2000 #before is 2000
         audio = r.listen(source)
         print("Over! Starting recognize.....")
 
@@ -33,7 +42,7 @@ def stt_func(selected_lang):
             text = normalized_text_byte.decode('utf-8')
             
         elif selected_lang.lower() == 'english':
-            text = r.recognize_google(audio, language='en-US')
+            text = r.recognize_google(audio, language='en')
         
         else:
             pass     
@@ -45,6 +54,10 @@ def stt_func(selected_lang):
 
     if text:
         print("Google Cloud Speech thinks you said: " + text)  
+        end = time.time()
+        differ = end - start
+        print(differ)
+        
     else:
         text = "Can not Recognize."
         print(text)

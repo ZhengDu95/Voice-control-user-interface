@@ -4,6 +4,7 @@ from plugins import speak_time, speak_date, read_email, search_mail, translate, 
 from o_v_e   import ove_control, ove_video, ove_image
 
 from text_to_speech import tts
+import time
 
 
 LOG_FORMAT = "%(levelname)s >  Line:%(lineno)s - %(message)s"
@@ -37,7 +38,7 @@ def input_parser(commands_list, selected_lang, command, profile_info):
     # If command are found then search for task by index number           
     if isinstance(index, int):
         no_error = True
-
+        start = time.time()
         if no_error:
             if commands_list['task'][index] == 'greeting':
                 greetings.greeting_func(text=command,lang=selected_lang)
@@ -101,10 +102,10 @@ def input_parser(commands_list, selected_lang, command, profile_info):
                 ove_control.ove_delete_sections_func(text=command,lang = selected_lang)
             
             #lauch demos
-            elif commands_list['task'][index] == 'demo':
+            elif commands_list['task'][index] == 'launch demos':
                 ove_control.ove_demo_func(text=command,lang = selected_lang)
-
+                
+    
             
     else:
         tts.speak(speak_text="Sorry! Wrong command", language='english')
-

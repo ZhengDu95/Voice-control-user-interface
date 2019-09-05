@@ -12,6 +12,7 @@ import json
 from speech_to_text import stt
 from text_to_speech import tts
 import conf
+import time
 
 #from ove.ove import Space
 #from ove import save_file
@@ -33,7 +34,12 @@ def ove_launch_video_func(lang):
         
         
     headers = {'Content-Type': 'application/json'}
-    payload = {"space": space,"x":"0","y":"0","w":"4320","h":"2424","app":{"url":url,"states":{"load":"DSIIntro"}}}
+    
+    if space == "DOCluster":
+        payload = {"space": space,"x":7680,"y":0,"w":15360,"h":4320,"app":{"url":url,"states":{"load":"DSIIntro"}}}
+    elif space == "DOSection":
+        payload = {"space": space,"x":5760,"y":0,"w":19200,"h":4320,"app":{"url":url,"states":{"load":"DSIIntro"}}}
+        
     r = requests.post(url_post, data=json.dumps(payload), headers = headers)
     ControlID = json.loads(r.text)
                 
@@ -41,11 +47,10 @@ def ove_launch_video_func(lang):
     try:
         webbrowser.open(url_web)
     except Exception as e:
-        print("OVE video controller webpage open error:",e) 
-        
+        print("OVE video controller webpage open error:",e)  
 
 def ove_video_operation_func(text,lang):
-    url = conf.URL
+    url = conf.URL 
     
     if lang.lower() == 'english':
         if  text.lower() == 'play':
@@ -54,7 +59,7 @@ def ove_video_operation_func(text,lang):
             
             search_text = stt.stt_func(selected_lang=lang)
             
-            if search_text.lower() == 'play all':
+            if search_text.lower() == 'play all':             
                 url = "http://" + url + "/app/videos/operation/play"
                 r = requests.post(url)
                 speak_text = "play video " + search_text.lower() + ", done."
@@ -82,12 +87,14 @@ def ove_video_operation_func(text,lang):
             search_text = stt.stt_func(selected_lang=lang)
             
             if search_text.lower() == 'pause all':
+                
                 url = "http://" + url + "/app/videos/operation/pause"
                 r = requests.post(url)
                 speak_text = "pause video " + search_text.lower() + ", done."
                 tts.speak(speak_text=speak_text,language=lang)
                 
             elif search_text.isdigit():
+                
                 sectionID = search_text
                 url = "http://" + url + "/app/videos/operation/pause?loop=true&oveSectionId=" + sectionID
                 r = requests.post(url)
@@ -109,12 +116,14 @@ def ove_video_operation_func(text,lang):
             search_text = stt.stt_func(selected_lang=lang)
             
             if search_text.lower() == 'mute all':
+                
                 url = "http://" + url + "/app/videos/operation/mute"
                 r = requests.post(url)
                 speak_text = "mute video " + search_text.lower() + ", done."
                 tts.speak(speak_text=speak_text,language=lang)
                 
             elif search_text.isdigit():
+                
                 sectionID = search_text
                 url = "http://" + url + "/app/videos/operation/mute?loop=true&oveSectionId=" + sectionID
                 r = requests.post(url)
@@ -136,12 +145,14 @@ def ove_video_operation_func(text,lang):
             search_text = stt.stt_func(selected_lang=lang)
             
             if search_text.lower() == 'stop all':
+                
                 url = "http://" + url + "/app/videos/operation/stop"
                 r = requests.post(url)
                 speak_text = "stop video " + search_text.lower() + ", done."
                 tts.speak(speak_text=speak_text,language=lang)
                 
             elif search_text.isdigit():
+                
                 sectionID = search_text
                 url = "http://" + url + "/app/videos/operation/stop?loop=true&oveSectionId=" + sectionID
                 r = requests.post(url)

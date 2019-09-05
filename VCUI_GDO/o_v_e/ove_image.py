@@ -12,18 +12,20 @@ import json
 from speech_to_text import stt
 from text_to_speech import tts
 import conf
+import time
 
 
 def ove_launch_image_func(lang):   
     if lang.lower() == 'english':
         speak_text = "welcome to launch the image application"
+
         
     else:
         speak_text = "欢迎使用OVE图像应用"
         
         
     tts.speak(speak_text=speak_text,language=lang)
-        
+    
     #send post request to image application
     space = conf.SPACE
     url = "http://" + conf.URL + "/app/images"
@@ -31,7 +33,13 @@ def ove_launch_image_func(lang):
         
         
     headers = {'Content-Type': 'application/json'}
-    payload = {"space": space,"x":"0","y":"0","w":"4320","h":"2424","app":{"url":url,"states":{"load":"Highsmith"}}}
+    
+    if space == "DOCluster":
+        payload = {"space": space,"x":13440,"y":0,"w":3840,"h":4320,"app":{"url":url,"states":{"load":"Highsmith"}}}
+    elif space == "DOSection":
+        payload = {"space": space,"x":13440,"y":0,"w":5760,"h":4320,"app":{"url":url,"states":{"load":"Highsmith"}}}
+    
+    
     r = requests.post(url_post, data=json.dumps(payload), headers = headers)
     ControlID = json.loads(r.text)
                 
@@ -40,6 +48,8 @@ def ove_launch_image_func(lang):
         webbrowser.open(url_web)
     except Exception as e:
         print("OVE image controller webpage open error:",e) 
+        
+
         
         
 def ove_image_operation_func(text,lang):
@@ -52,13 +62,12 @@ def ove_image_operation_func(text,lang):
             
             search_text = stt.stt_func(selected_lang=lang)
             
-                
             if search_text.isdigit():
                 sectionID = search_text
                 headers = {'Content-Type': 'application/json',
                            'accept': 'application/json'}
                 
-                payload = { 'zoom': '2', 'pan': { 'x': '0', 'y': '0' }}
+                payload = { 'zoom': 2, 'pan': { 'x': 0, 'y': 0 }}
                 
                 url_post = "http://" + conf.URL + "/app/images/instances/" + sectionID + "/state/transform"
                 r = requests.post(url_post , data=json.dumps(payload), headers = headers)
@@ -66,7 +75,7 @@ def ove_image_operation_func(text,lang):
                 url = 'http://' + conf.URL + '/app/images/control.html?oveSectionId=' + sectionID
                 webbrowser.open(url)
                 
-                
+   
                 speak_text = "zoom in imgae " + search_text.lower() + ", done."
                 tts.speak(speak_text=speak_text,language=lang)
                 
@@ -82,13 +91,12 @@ def ove_image_operation_func(text,lang):
             
             search_text = stt.stt_func(selected_lang=lang)
             
-                
             if search_text.isdigit():
                 sectionID = search_text
                 headers = {'Content-Type': 'application/json',
                            'accept': 'application/json'}
                 
-                payload = { 'zoom': '0.5', 'pan': { 'x': '0', 'y': '0' }}
+                payload = { 'zoom': 0.5, 'pan': { 'x': 0, 'y': 0}}
                 
                 url_post = "http://" + conf.URL + "/app/images/instances/" + sectionID + "/state/transform"
                 r = requests.post(url_post , data=json.dumps(payload), headers = headers)
@@ -122,7 +130,7 @@ def ove_image_operation_func(text,lang):
                 headers = {'Content-Type': 'application/json',
                            'accept': 'application/json'}
                 
-                payload = { 'zoom': '2', 'pan': { 'x': '0', 'y': '0' }}
+                payload = { 'zoom': 2, 'pan': { 'x': 0, 'y': 0}}
                 
                 url_post = "http://" + conf.URL + "/app/images/instances/" + sectionID + "/state/transform"
                 r = requests.post(url_post , data=json.dumps(payload), headers = headers)
@@ -152,7 +160,7 @@ def ove_image_operation_func(text,lang):
                 headers = {'Content-Type': 'application/json',
                            'accept': 'application/json'}
                 
-                payload = { 'zoom': '0.5', 'pan': { 'x': '0', 'y': '0' }}
+                payload = { 'zoom': 0.5, 'pan': { 'x': 0, 'y': 0 }}
                 
                 url_post = "http://" + conf.URL + "/app/images/instances/" + sectionID + "/state/transform"
                 r = requests.post(url_post , data=json.dumps(payload), headers = headers)
