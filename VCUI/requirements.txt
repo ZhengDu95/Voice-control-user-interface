@@ -29,7 +29,7 @@ PyQt5-sip==4.19.13
 pytz==2018.7
 requests==2.21.0
 requests-oauthlib==1.2.0
-rsa==4.0
+rsa==4.1
 six==1.12.0
 soupsieve==1.9.1
 SpeechRecognition==3.8.1
